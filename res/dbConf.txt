@@ -1,0 +1,3 @@
+percorso;jdbc:mysql://localhost:3306/GAMES_ESPORTS?useSSL=false&serverTimezone=UTC
+user;root
+pass;root

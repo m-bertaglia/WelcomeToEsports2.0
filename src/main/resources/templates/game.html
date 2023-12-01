@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+	<h1 th:text="${game.titolo}"></h1>
+	<a href="/"><button>HomePage</button></a>
+
+	<hr>
+	<button onclick="document.getElementById('modal-new-team').style.display = 'block'">Nuovo Team</button>
+	<table>
+		<tr>
+			<th>Lista Team</th>
+		</tr>
+		<tr th:each="team : ${listaTeams}">
+			<td th:text="|${team.value.nome} (${team.value.nazione})|"></td>
+			<td>
+				<form action="/team/" method="post">
+					<input type="hidden" name="idGame" th:value="${game.id}">
+					<input type="hidden" name="idTeam" th:value="${team.key}">
+					<button type="submit">Gestione Team</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+
+	<hr>
+	<button onclick="document.getElementById('modal-new-match').style.display = 'block'">Nuovo Match</button>
+	<table>
+		<tr>
+			<th>Lista Match</th>
+		</tr>
+		<tr th:each="match : ${listaMatches}">
+			<td
+				th:text="|(${match.value.dataMatch}) . ${match.value.teamHome.nome} [ ${match.value.pointsHome} - ${match.value.pointsAway} ] ${match.value.teamAway.nome}|">
+			</td>
+		</tr>
+	</table>
+
+
+	<div id="modal-new-team" class="modal-back">
+		<div class="modal-content">
+			<span class="close" onclick="document.getElementById('modal-new-team').style.display = 'none'">X</span>
+			<form action="/game/newTeam" method="post">
+				<h3>Modale Nuovo Team</h3>
+				<label for="nomeTeam">Nome Team: </label>
+				<input type="text" name="nome" id="nomeTeam" placeholder="Inserisci Nome Team" required><br>
+				<label for="nazioneTeam">Nazione Team: </label>
+				<input type="text" name="nazione" id="nazioneTeam" placeholder="Inserisci Nazione Team" required><br>
+				<input type="hidden" name="idGame" th:value="${game.id}">
+				<button type="submit">Inserisci Nuovo Team</button>
+			</form>
+		</div>
+
+	</div>
+
+	<div id="modal-new-match" class="modal-back">
+		<div class="modal-content">
+			<span class="close" onclick="document.getElementById('modal-new-match').style.display = 'none'">X</span>
+			<form action="/game/newMatch" method="post">
+				<h3>Modale Nuovo Match</h3>
+				<input type="hidden" name="idGame" th:value="${game.id}">
+				<label for="dataMatch">Data Match:</label>
+				<input type="date" id="dataMatch" name="dataMatch" required><br>
+				<select name="idTeamHome" required>
+					<option value="" selected disabled> -- Seleziona Team CASA</option>
+					<option th:each="team : ${listaTeams}" th:value="${team.key}" th:text="${team.value.nome}"></option>
+				</select>
+				<input class="point" type="number" name="pointsHome" required>
+				VS.
+				<input class="point" type="number" name="pointsAway" required>
+				<select name="idTeamAway" required>
+					<option value="" selected disabled> -- Seleziona Team FUORI CASA</option>
+					<option th:each="team : ${listaTeams}" th:value="${team.key}" th:text="${team.value.nome}"></option>
+				</select><br>
+				<button type="submit">Nuovo Match</button>
+			</form>
+		</div>
+	</div>
+
+
+</body>
+
+</html>

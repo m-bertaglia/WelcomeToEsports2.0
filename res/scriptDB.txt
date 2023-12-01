@@ -1,0 +1,73 @@
+drop database if exists GAMES_ESPORTS;
+create database GAMES_ESPORTS;
+use GAMES_ESPORTS;
+
+create table GAMES(
+	id int primary key auto_increment,
+    titolo varchar(50)
+);
+
+insert into GAMES(titolo) values('League of Legend');
+insert into GAMES(titolo) values('Rainbow Six Siege');
+
+create table TEAMS(
+	id int primary key auto_increment,
+    nome varchar(50),
+    nazione varchar(50),
+    idGames int,
+    foreign key (idGames) references GAMES(id) on update cascade on delete set null
+);
+
+insert into TEAMS(nome, nazione, idGames) values('Fanatic','Inghilterra',1);
+insert into TEAMS(nome, nazione, idGames) values('G2','Inghilterra',1);
+insert into TEAMS(nome, nazione, idGames) values('Ninjas in Pijamas','Inghilterra',2);
+insert into TEAMS(nome, nazione, idGames) values('TSM','Inghilterra',2);
+
+create table PLAYERS(
+	id int primary key auto_increment,
+    nickname varchar(50),
+    nome varchar(50),
+    cognome varchar(50),
+    dataNascita date,
+    gamesRole varchar(50),
+    idTeam int,
+    foreign key (idTeam) references TEAMS(id) on update cascade on delete set null
+);
+
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Lucky Duck', 'Ambur', 'McNevin', '2003-11-09', 1);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Sneaky Fox', 'Lillian', 'Crankshaw', '2002-03-03', 1);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Crazy Monkey', 'Gael', 'Storks', '2004-01-24', 3);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Whispering Shadow', 'Esmaria', 'Greenhowe', '2005-10-25', 4);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Giggling Unicorn', 'Theo', 'Kisbey', '2002-03-05', 3);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Daring Tiger', 'Corbin', 'Schuelcke', '2001-04-19', 3);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Mysterious Raven', 'Holden', 'Dahmke', '2004-12-19', 3);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Playful Panda', 'Levy', 'Wickes', '2003-09-17', 2);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Silly Squirrel', 'Marilee', 'Knocker', '2004-03-07', 4);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Cheeky Chipmunk', 'Elbert', 'Reedyhough', '2002-02-04', 1);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Wandering Wanderer', 'Laryssa', 'Skerrett', '2002-01-17', 4);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Curious Cat', 'Cordelie', 'Merriott', '2001-03-08', 2);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Bouncing Bunny', 'Ronica', 'Schriren', '2003-02-10', 2);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Mischievous Mouse', 'Nona', 'Cromer', '2004-12-30', 1);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Adventurous Ant', 'Karlee', 'Gilvary', '2001-04-11', 3);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Jolly Joker', 'Annis', 'Shevels', '2005-03-30', 3);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Witty Wizard', 'Jenica', 'Bonsale', '2004-08-10', 2);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Charming Chameleon', 'Rozamond', 'Gascoyne', '2005-09-03', 1);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Happy Hippo', 'Hetty', 'Orta', '2004-07-17', 4);
+insert into PLAYERS (nickname, nome, cognome, dataNascita, idTeam) values ('Clever Clown', 'Dacia', 'Eddow', '2004-05-16', 2);
+
+create table MATCHES(
+	id int primary key auto_increment,
+    dataMatch date,
+    idGames int, 
+    idTeamHome int,
+    idTeamAway int,
+    pointsHome int,
+    pointsAway int,
+    foreign key (idGames) references GAMES(id) on update cascade on delete set null,
+    foreign key (idTeamHome) references TEAMS(id) on update cascade on delete set null,
+    foreign key (idTeamAway) references TEAMS(id) on update cascade on delete set null
+);
+
+insert into MATCHES(dataMatch, idGames, idTeamHome, idTeamAway, pointsHome, pointsAway) values(current_date(), 1, 1, 2, 3, 2);
+insert into MATCHES(dataMatch, idGames, idTeamHome, idTeamAway, pointsHome, pointsAway) values(current_date(), 2, 3, 4, 4, 6);
+

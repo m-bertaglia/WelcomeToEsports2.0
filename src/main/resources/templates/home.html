@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Insert title here</title>
+	<link rel="stylesheet" href="css/style.css">
+
+	<script>
+		function renderModGame(game) {
+			document.getElementById('modal-mod-game').style.display = 'block';
+			document.getElementById('data-id').value = game.id;
+			document.getElementById('data-titolo').value = game.titolo;
+		}
+	</script>
+</head>
+
+<body>
+
+	<h1>Welcome to Esports</h1>
+
+	<hr>
+	<button onclick="document.getElementById('modal-new-game').style.display = 'block'">Nuovo Game</button>
+	<table>
+		<tr>
+			<th>Seleziona Game ...</th>
+		</tr>
+		<tr th:each="entry : ${listaGames}">
+			<td>
+				<form action="/game/" method="post">
+					<input type="hidden" name="idGames" th:value="${entry.key}">
+					<button type="submit" th:text="${entry.value.titolo}">prova</button>
+				</form>
+			</td>
+			<td>
+				<button onclick="renderModGame(this.dataset)" th:data-id="${entry.key}"
+					th:data-titolo="${entry.value.titolo}">
+					Modifica
+				</button>
+			</td>
+			<td>
+				<form action="/delGame" method="post">
+					<input type="hidden" name="id" th:value="${entry.key}">
+					<button type="submit">Elimina</button>
+				</form>
+			</td>
+		</tr>
+	</table>
+
+
+	<div id="modal-new-game" class="modal-back">
+		<div class="modal-content">
+			<span class="close" onclick="document.getElementById('modal-new-game').style.display = 'none'">X</span>
+			<form action="/newGame" method="post">
+				<h3>Nuovo Game</h3>
+				<input type="text" name="titolo" placeholder="Inserisci Titolo Game" required>
+				<button type="submit">Inserisci Nuovo Game</button>
+			</form>
+		</div>
+	</div>
+
+	<div id="modal-mod-game" class="modal-back">
+		<div class="modal-content">
+			<span class="close" onclick="document.getElementById('modal-mod-game').style.display = 'none'">X</span>
+			<form action="/modGame" method="post">
+				<h3>Modifica Game</h3>
+				<input type="hidden" name="id" id="data-id">
+				<input type="text" name="titolo" id="data-titolo" placeholder="Inserisci Titolo Game" required>
+				<button type="submit">Modifica Game</button>
+			</form>
+		</div>
+	</div>
+
+</body>
+
+</html>
